@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+  }
+ body{
+    max-width: 100%;
+    background-image: url('./images/aaabstract\ \(9\).png');
+   overflow-x: hidden;
+   background-size: cover;
+   background-color: rgb(8, 8, 8);
+   background-position: bottom;
+   background-repeat: no-repeat;
+}
+
+html{
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 14px;
+    color: #9097ab;
+}
+h1{
+    width: 100%;
+    font-size: 10vh;
+    text-align: center;
+    background: -webkit-linear-gradient(#eee, #333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.search-bar-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: solid 1px #474343;
+    backdrop-filter: blur(2px);
+    padding: 1rem;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    margin-bottom: 2rem;
+    text-align: initial;
+    background: #090909;
+}
+form{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 300px;
+}
+form > input{
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 0.5rem;
+    min-width: 200px;
+    padding: 10px;
+    background: none;
+    height: 40px;
+    padding: 10px;
+    border: solid 1px gray;
+    background: -webkit-linear-gradient(#eee, #333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.search-input:focus{
+    outline-color: green;
+}
+form > button{
+    height: 40px;
+    padding: 10px;
+    border-radius: 0.5rem;
+    border: solid 1px gray;
+    background: -webkit-linear-gradient(#eee, #333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+form > button:hover{
+    border: solid 1px green;
+}
+.processor-info-container{
+    text-align: center;
+    padding-inline: 2rem;
+    margin-top: 1rem;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.processor-info{
+    backdrop-filter: blur(20px);
+    border: 1px solid rgb(255 255 255 / 18%);
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    text-align: initial;
+}
+.processor-info > h2{
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.processor-info > h4 {
+    font-size: 2rem;
+    color: #cfcfcf;
+}
+.processor-info > p{
+    font-weight: 200;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    max-width: 300px;
+}
+
+.client-dropbown{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #cfcfcf;
+}
+
+.client-info-container > h4 {
+    font-size: 2rem;
+    color: green;
+}
+.client-info-dropdown{
+    font-weight: 200;
+    font-size: 1.5rem;
+}
+.client-title{
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    color: #cfcfcf;
+}
+
+
+hr{
+    border: none;
+    /* height: 20px; */
+    width: 100%;
+    height: 50px;
+    margin-top: 0;
+    border-bottom: 1px solid #4f4f4f;
+    box-shadow: 5px 20px 20px -20px #3a3a3a;
+    /* margin: -50px auto 10px; */
+    margin-bottom: 4rem;
+}
+.default-search{
+    font-size: 20px;
+    font-weight: 100;
+    font-size: 20px;
+    font-weight: 100;
+    height: 50px;
+    background: none;
+    background: -webkit-linear-gradient(#eee, #333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.ucc-style{
+    margin-bottom: 1rem;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 110px;
+}
+.logo-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.hidden{
+    display: none;
+}
+.default-home{
+    cursor: pointer;
+}
+.creator-stamp{
+    text-align: center;
+    font-size: 2rem;
+    color:#cfcfcf;
+    font-weight: 100;
+    max-width: 300px;
+    margin: auto;
+    padding-bottom: 1rem;
+}
+.creator-stamp > a {
+        text-align: center;
+        font-size: 2rem;
+        color:#cfcfcf;
+        background: -webkit-linear-gradient(#eee, #333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+}
