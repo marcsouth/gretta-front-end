@@ -5,7 +5,7 @@ import App from './App';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: 'gretta-backend-foobian2w-marcsouth.vercel.app', // Replace with your Apollo Server's URL
+  uri: 'https://gretta-back-end-b21eafe842d2.herokuapp.com/', // Replace with your Apollo Server's URL
   cache: new InMemoryCache(),
 });
 
