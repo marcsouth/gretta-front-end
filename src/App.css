@@ -201,3 +201,64 @@ hr{
     -webkit-text-fill-color: transparent;
     cursor: pointer;
 }
+.card-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.pop-up-container {
+    z-index: 10;
+    background-color: #00000045;
+    width: 100%;
+    height: 100%;
+    position: fixed; /* Change to fixed */
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(1px);
+  }
+  
+  .pop-up {
+    background-color: #000c12;
+    color: #cfcfcf;
+    padding: 1rem;
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    border-radius: 1rem;
+    font-weight: 300;
+    font-size: 1.5rem;
+    border: solid 2px #8f8f8f;
+  }
+  
+.button-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+}
+.delete-button{
+    height: 40px;
+    padding: 10px;
+    border-radius: 0.5rem;
+    border: solid 1px gray;
+    background: -webkit-linear-gradient(#ff0000, #000);
+    color:#cfcfcf ;
+    font-weight: 900;
+}
+.cancel-button{
+    height: 40px;
+    padding: 10px;
+    border-radius: 0.5rem;
+    border: solid 1px gray;
+    background: -webkit-linear-gradient(#eee, #333);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+

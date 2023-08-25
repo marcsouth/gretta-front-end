@@ -1,17 +1,60 @@
 import "./App.css";
-import { useQuery } from "@apollo/client";
-import { GET_PROCESSORS } from "./Queries"; // Import the GET_PROCESSORS query
+import { useQuery, useMutation } from "@apollo/client";
+import { GET_PROCESSORS, DELETE_PROCESSOR } from "./Queries"; 
 import React, { useState } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { AiOutlineCheck } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 import { GiBank } from "react-icons/gi";
+import { BsTrash3 } from "react-icons/bs";
+import Deletionpopup from "./components/deletionpopup";
 
 function App() {
-  const { loading, error, data } = useQuery(GET_PROCESSORS); // Use GET_PROCESSORS query
+  const { loading, error, data } = useQuery(GET_PROCESSORS);
+  const [deleteProcessorMutation] = useMutation(DELETE_PROCESSOR, {
+    update(cache, { data: { deleteProcessor } }) {
+      // Remove the deleted processor from the cache
+      cache.modify({
+        fields: {
+          processors(existingProcessors = [], { readField }) {
+            return existingProcessors.filter(
+              (processorRef) => deleteProcessor.id !== readField("id", processorRef)
+            );
+          },
+        },
+      });
+    },
+  });
+  
   const [searchText, setSearchText] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [clientInfoOpen, setClientInfoOpen] = useState({});
+  const [showDeletionPopup, setShowDeletionPopup] = useState(false);
+  const [processorToDelete, setProcessorToDelete] = useState(null); // To track the processor to delete
+
+  const handleDeleteProcessor = (processorId) => {
+    setProcessorToDelete(processorId); // Set the processor to delete
+    setShowDeletionPopup(true); // Show the pop-up
+  };
+
+  const handleCancelDeletion = () => {
+    setProcessorToDelete(null); // Clear the processor to delete
+    setShowDeletionPopup(false); // Close the deletion pop-up
+  };
+
+  const handleConfirmDeletion = async () => {
+    if (processorToDelete) {
+      try {
+        await deleteProcessorMutation({ variables: { id: processorToDelete } });
+        // Update filteredData state after deletion
+        updateFilteredData(processorToDelete);
+        console.log("Successfully deleted processor");
+        setShowDeletionPopup(false); // Close the deletion pop-up
+      } catch (e) {
+        console.error("Error deleting processor", e);
+      }
+    }
+  };
 
   function handleSearch(e) {
     e.preventDefault();
@@ -23,6 +66,8 @@ function App() {
         .toLowerCase()
         .includes(trimmedSearchText.toLowerCase())
     );
+
+    // Function to handle the delete action
 
     // Update the 'filteredData' state with the filtered processor results
     setFilteredData(filteredProcessors);
@@ -42,6 +87,12 @@ function App() {
     // Reset filteredData to an empty array
     setFilteredData([]);
   }
+
+  const updateFilteredData = (deletedProcessorId) => {
+    setFilteredData((prevData) =>
+      prevData.filter((processor) => processor.id !== deletedProcessorId)
+    );
+  };
 
   return (
     <>
@@ -71,7 +122,7 @@ function App() {
         {filteredData.length > 0 ? (
           filteredData.map((processor) => (
             <li key={processor.id} className="processor-info">
-              <h4>PROCESSOR:</h4>
+              <h4 className="card-header">PROCESSOR: <BsTrash3 height="25px" color="#cfcfcf" onClick={() => handleDeleteProcessor(processor.id)} /> </h4>
               <p>{processor.processor}</p>
               <h4>MERCHANT ID:</h4>
               <p>{processor.merchantid}</p>
@@ -114,7 +165,12 @@ function App() {
           <p className="default-search">Search for Processors...</p>
         )}
       </ul>
-        <p className="creator-stamp">Designed and Built by <a href="https://marc-v.dev/"> Marc-V</a></p>
+      <p className="creator-stamp">Designed and Built by <a href="https://marc-v.dev/"> Marc-V</a></p>
+
+      {/* Conditionally render the pop-up */}
+      {showDeletionPopup && (
+        <Deletionpopup show={showDeletionPopup} onCancel={handleCancelDeletion} onConfirm={handleConfirmDeletion} />
+      )}
     </>
   );
 }
