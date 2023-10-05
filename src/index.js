@@ -8,7 +8,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 //link to online, make sure to deploy it again : https://gretta-backend-production.up.railway.app/  
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/',
+  uri: 'https://gretta-backend-production.up.railway.app/', 
   cache: new InMemoryCache(),
 });
 
