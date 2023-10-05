@@ -1,24 +1,25 @@
-import "./App.css";
-import { useQuery, useMutation } from "@apollo/client";
-import { GET_PROCESSORS, DELETE_PROCESSOR } from "./Queries"; 
+import "./App.css"
+import { useQuery, useMutation } from "@apollo/client"
+import { GET_EXPENSES, DELETE_EXPENSE, } from "./Queries";
 import React, { useState } from "react";
-import { RiArrowDropDownLine } from "react-icons/ri";
-import { AiOutlineCheck } from "react-icons/ai";
-import { AiOutlineClose } from "react-icons/ai";
-import { GiBank } from "react-icons/gi";
-import { BsTrash3 } from "react-icons/bs";
-import Deletionpopup from "./components/deletionpopup";
+import { AiOutlineCheck } from "react-icons/ai"
+import { AiOutlineClose } from "react-icons/ai"
+import { GiMoneyStack } from "react-icons/gi"
+import { BsTrash3 } from "react-icons/bs"
+import Deletionpopup from "./components/deletionpopup"
+import Formpopup from "./components/Formpopup"
+import {AiOutlinePlus} from "react-icons/ai"
 
 function App() {
-  const { loading, error, data } = useQuery(GET_PROCESSORS);
-  const [deleteProcessorMutation] = useMutation(DELETE_PROCESSOR, {
-    update(cache, { data: { deleteProcessor } }) {
+  const { loading, error, data } = useQuery(GET_EXPENSES);
+  const [deleteProcessorMutation] = useMutation(DELETE_EXPENSE, {
+    update(cache, { data: { deleteExpense } }) {
       // Remove the deleted processor from the cache
       cache.modify({
         fields: {
-          processors(existingProcessors = [], { readField }) {
-            return existingProcessors.filter(
-              (processorRef) => deleteProcessor.id !== readField("id", processorRef)
+          expenses(existingExpenses = [], { readField }) {
+            return existingExpenses.filter(
+              (expenseRef) => deleteExpense.id !== readField("id", expenseRef)
             );
           },
         },
@@ -28,12 +29,16 @@ function App() {
   
   const [searchText, setSearchText] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [clientInfoOpen, setClientInfoOpen] = useState({});
   const [showDeletionPopup, setShowDeletionPopup] = useState(false);
   const [processorToDelete, setProcessorToDelete] = useState(null); // To track the processor to delete
+  const [showFormPopup, setShowFormPopup] = useState(false);
 
-  const handleDeleteProcessor = (processorId) => {
-    setProcessorToDelete(processorId); // Set the processor to delete
+const toggleFormPopup = () => {
+  setShowFormPopup(!showFormPopup);
+};
+
+  const handleDeleteProcessor = (expenseId) => {
+    setProcessorToDelete(expenseId); // Set the processor to delete
     setShowDeletionPopup(true); // Show the pop-up
   };
 
@@ -48,10 +53,10 @@ function App() {
         await deleteProcessorMutation({ variables: { id: processorToDelete } });
         // Update filteredData state after deletion
         updateFilteredData(processorToDelete);
-        console.log("Successfully deleted processor");
+        console.log("Successfully deleted expense");
         setShowDeletionPopup(false); // Close the deletion pop-up
       } catch (e) {
-        console.error("Error deleting processor", e);
+        console.error("Error deleting expense", e);
       }
     }
   };
@@ -59,28 +64,17 @@ function App() {
   function handleSearch(e) {
     e.preventDefault();
     const trimmedSearchText = searchText.trim();
-
-    // Filter processors based on searchText
-    const filteredProcessors = data.processors.filter((processor) =>
-      processor.processor
-        .toLowerCase()
-        .includes(trimmedSearchText.toLowerCase())
+  
+    // Filter expenses based on searchText
+    const filteredExpenses = data.expenses.filter((expense) =>
+      expense.card.toLowerCase().includes(trimmedSearchText.toLowerCase())
     );
-
-    // Function to handle the delete action
-
-    // Update the 'filteredData' state with the filtered processor results
-    setFilteredData(filteredProcessors);
-
+  
+    // Update the 'filteredData' state with the filtered expense results
+    setFilteredData(filteredExpenses);
+  
     // Clear the search text
     setSearchText("");
-  }
-
-  function toggleClientInfo(processorId) {
-    setClientInfoOpen({
-      ...clientInfoOpen,
-      [processorId]: !clientInfoOpen[processorId],
-    });
   }
 
   function resetToDefault() {
@@ -98,7 +92,7 @@ function App() {
     <>
       <div className="search-bar-container">
         <div className="default-home" onClick={resetToDefault}>
-          <GiBank fontSize="3em" color="#cfcfcf" />
+          <GiMoneyStack fontSize="3em" color="#cfcfcf" />
         </div>
 
         <form onSubmit={handleSearch}>
@@ -109,52 +103,36 @@ function App() {
             onChange={(e) => setSearchText(e.target.value)}
             className="search-input"
           />
-          <button type="submit">SEARCH</button>
         </form>
+
+   <AiOutlinePlus onClick={toggleFormPopup} fontSize="3em" color="#cfcfcf" />
       </div>
 
-      <h1>GRETTA CAPITAL</h1>
+      <h1>Expense Tracker</h1>
       <div className={`logo-div ${filteredData.length > 0 ? 'hidden' : ''}`}>
-        <GiBank fontSize="20em" color="#cfcfcf" />
+        <GiMoneyStack fontSize="20em" color="#cfcfcf" />
       </div>
 
       <ul className="processor-info-container">
         {filteredData.length > 0 ? (
-          filteredData.map((processor) => (
-            <li key={processor.id} className="processor-info">
-              <h4 className="card-header">PROCESSOR: <BsTrash3 height="25px" color="#cfcfcf" onClick={() => handleDeleteProcessor(processor.id)} /> </h4>
-              <p>{processor.processor}</p>
-              <h4>MERCHANT ID:</h4>
-              <p>{processor.merchantid}</p>
+          filteredData.map((expense) => (
+            <li key={expense.id} className="processor-info">
+              <h4 className="card-header">CARD <BsTrash3 height="25px" color="#cfcfcf" onClick={() => handleDeleteProcessor(expense.id)} className="trashcan-icon" /> </h4>
+              <p>{expense.card}</p>
+              <h4>ITEM</h4>
+              <p>{expense.item}</p>
+              <h4>AMOUNT</h4>
+              <p>${expense.amount}</p>
               <h4 className="ucc-style">
-                UCC:{" "}
-                {processor.ucc ? (
+                DEDUCTIBLE?
+              </h4>
+              <p> {expense.deductible ? (
                   <AiOutlineCheck color="green" />
                 ) : (
                   <AiOutlineClose color="red" />
-                )}
-              </h4>
-              <h4>ADDRESS:</h4>
-              <p>{processor.adress}</p>
-              <div className="client-dropdown">
-                <h4 className="client-title">
-                  CLIENTS
-                  <RiArrowDropDownLine
-                    color="#CFCFCF"
-                    fontSize="2em"
-                    onClick={() => toggleClientInfo(processor.id)}
-                  />
-                </h4>
-              </div>
-              {clientInfoOpen[processor.id] && (
-                <ul className="client-info-container">
-                  {processor.clients.map((client) => (
-                    <li className="client-info-dropdown" key={client.id}>
-                      {client.name}
-                    </li>
-                  ))}
-                </ul>
-              )}
+                )}</p>
+              <h4>DATE</h4>
+              <p>{expense.date}</p>
             </li>
           ))
         ) : loading ? (
@@ -162,7 +140,7 @@ function App() {
         ) : error ? (
           <p>Error: {error.message}</p>
         ) : (
-          <p className="default-search">Search for Processors...</p>
+          <p className="default-search">Keep track of your expenses</p>
         )}
       </ul>
       <p className="creator-stamp">Designed and Built by <a href="https://marc-v.dev/"> Marc-V</a></p>
@@ -171,6 +149,13 @@ function App() {
       {showDeletionPopup && (
         <Deletionpopup show={showDeletionPopup} onCancel={handleCancelDeletion} onConfirm={handleConfirmDeletion} />
       )}
+      {showFormPopup && (
+  <Formpopup
+    show={showFormPopup}
+    onClose={toggleFormPopup}
+    /* Any other props you want to pass to Formpopup */
+  />
+)}
     </>
   );
 }

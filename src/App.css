@@ -51,7 +51,7 @@ form{
     display: flex;
     width: 100%;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     max-width: 300px;
 }
 form > input{
@@ -84,14 +84,17 @@ form > button:hover{
     border: solid 1px green;
 }
 .processor-info-container{
-    text-align: center;
-    padding-inline: 2rem;
-    margin-top: 1rem;
     display: flex;
-    width: 100%;
-    align-items: center;
+    max-width: 1200px;
     justify-content: center;
-    flex-direction: column;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin: auto;
+    margin-top: 60px;
+    /* margin-bottom: 100px; */
+    width: 100%;
 }
 .processor-info{
     backdrop-filter: blur(20px);
@@ -100,6 +103,7 @@ form > button:hover{
     border-radius: 1rem;
     margin-bottom: 2rem;
     text-align: initial;
+    min-width: 280px;
 }
 .processor-info > h2{
     font-size: 4rem;
@@ -170,7 +174,7 @@ hr{
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    max-width: 110px;
+    max-width: 220px;
 }
 .logo-div{
     display: flex;
@@ -207,6 +211,20 @@ hr{
     justify-content: space-between;
 }
 .pop-up-container {
+    z-index: 10;
+    background-color: #00000045;
+    width: 100%;
+    height: 100%;
+    position: fixed; /* Change to fixed */
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(1px);
+  }
+
+  .pop-up-container-form {
     z-index: 10;
     background-color: #00000045;
     width: 100%;
@@ -261,4 +279,34 @@ hr{
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+.trashcan-icon{
+    cursor: pointer;
+}
+.form-pop-up{
+    display: flex;
+    flex-direction: column;
+}
+.form-pop-up > label{
+margin-bottom: .5rem;
+}
+.form-pop-up > input{
+    margin-bottom: 1rem;
+}
+.close-button{
+    width: 100%;
+    justify-content: flex-end;
+    display: flex;
+    cursor: pointer;
+}
+.add-processor-button{
+    height: 40px;
+    padding: 10px;
+    border-radius: 0.5rem;
+    border: solid 1px gray;
+    background: -webkit-linear-gradient(#398003, #000);
+    font-weight: 900;
+    -webkit-text-fill-color: #cfcfcf;
+    margin-top: 1rem;
+}
+
 
